@@ -1,0 +1,23 @@
+---
+gitlab_access_level: developer
+gitlab_user: demouser
+gitlab_user_password: G1tL4b17
+gitlab_email_domain: cloud-msp.net
+gitlab_server_url: https://gitlab.cloud-msp.net
+gitlab_validate_certs: True
+gitlab_confirm: no
+gitlab_group: demogroup
+gitlab_issues_enabled: True
+gitlab_wiki_enabled: True
+gitlab_snippets_enabled: True
+# gitlab_ssh_public_key: "ssh-rsa AAA..."
+gitlab_projects:
+  - name: "{{ gitlab_user }}-broken-python"
+    url: https://github.com/tonyskidmore/demo-broken-python.git
+    group: "{{ gitlab_group }}"
+  - name: "{{ gitlab_user }}-broken-powershell"
+    url: https://github.com/tonyskidmore/demo-broken-powershell.git
+    group: "{{ gitlab_group }}"
+  - name: "{{ gitlab_user }}-broken-c"
+    url: https://github.com/tonyskidmore/demo-broken-c.git
+    group: "{{ gitlab_group }}"

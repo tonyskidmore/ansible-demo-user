@@ -1,0 +1,10 @@
+---
+- name: holding place
+  hosts: localhost
+  connection: local
+
+  tasks:
+
+  - name: do something
+    debug:
+      var: ansible_nodename
