@@ -1,2 +1,2 @@
-# gitlab-demo-user
-# gitlab-demo-user
+## Synopsis
+Used to create a user in Ansible demo
