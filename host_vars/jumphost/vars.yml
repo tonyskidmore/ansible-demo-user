@@ -1,3 +1,0 @@
----
-jumphost_user_password: "{{ vault_user_password }}"
-
