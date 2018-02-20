@@ -1,10 +1,9 @@
 ---
 - name: holding place
-  hosts: localhost
-  connection: local
-
+  hosts: all
+  
   tasks:
 
   - name: do something
     debug:
-      var: ansible_nodename
+      var: ansible_fqdn
