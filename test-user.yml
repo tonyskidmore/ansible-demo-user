@@ -1,0 +1,37 @@
+---
+- name: test user
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    jumphost_username: "ZGVtb3Jlc3R1c2VyOkQwbnRQdXRIM3Iz"
+
+  tasks:
+
+
+  - name: set user fact
+    set_fact:
+      jumphost_user: "{{ jumphost_username | trim }}"
+
+  - name: decode base64
+    set_fact:
+      jumphost_user_decode: "{{ jumphost_user | b64decode }}"
+
+  - name: debug jumphost_user_decode
+    debug:
+      var: jumphost_user_decode
+
+  - name: split username and password
+    set_fact:
+      jh_user: "{{ jumphost_user_decode.split(':')[0] }}"
+      jh_pwd: "{{ jumphost_user_decode.split(':')[1] }}"
+
+  - name: debug vars
+    debug:
+      var: item
+    with_items:
+      - "{{ jh_user }}"
+      - "{{ jh_pwd }}"
+
+
