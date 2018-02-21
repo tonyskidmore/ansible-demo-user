@@ -1,7 +1,17 @@
 ---
-- name: set user fact
+
+- name: decode base64
   set_fact:
-    jumphost_username: "{{ jumphost_user | trim }}"
+    jumphost_user_decode: "{{ demo_user | b64decode }}"
+
+- name: debug jumphost_user_decode
+  debug:
+    var: jumphost_user_decode
+
+- name: split username and password
+  set_fact:
+    jumphost_username: "{{ jumphost_user_decode.split(':')[0] }}"
+    jumphost_user_password: "{{ jumphost_user_decode.split(':')[1] }}"
 
 - name: create user
   user:
@@ -54,21 +64,6 @@
     template:
       src: config.j2
       dest: "/home/{{ jumphost_username }}/.ssh/config"
-      owner: "{{ jumphost_username }}"
-      group: "{{ jumphost_username }}"
-      mode: 0600
-
-  # not working on first attempt use an easy alternative instead
-  # - name: configure known_hosts
-  #  known_hosts:
-  #    path: "/home/{{ jumphost_username }}/.ssh/known_hosts"
-  #    name: "{{ gitlab_server }}.{{ jumphost_email_domain }}"
-  #    key: "{{ gitlab_server_public_key }}"
-
-  - name: create known_hosts file
-    template:
-      src: known_hosts.j2
-      dest: "/home/{{ jumphost_username }}/.ssh/known_hosts"
       owner: "{{ jumphost_username }}"
       group: "{{ jumphost_username }}"
       mode: 0600

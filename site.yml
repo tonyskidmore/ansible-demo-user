@@ -1,9 +1,16 @@
 ---
-- name: holding place
-  hosts: all
-  
-  tasks:
+- name: Configure jumphost for User
+  hosts: jumphost
+  become: True
+  tags:
+    - jumphost
 
-  - name: do something
-    debug:
-      var: ansible_fqdn
+  roles:
+
+  - name: configure jumphost for user
+    role: jumphost_user
+    jumphost_user: "{{ demo_user }}"
+    tags:
+      - jumphost
+
+
