@@ -1,0 +1,20 @@
+---
+- name: test remote docker
+  hosts: localhost
+  connection: local
+  gather_facts: True
+
+  tasks:
+
+  - name: Create a data container
+    docker_container:
+      docker_host: tcp://docker:2375
+      name: "{{ ansible_user_id }}-{{ item }}"
+      labels: { owner: "{{ ansible_user_id }}" }
+      image: tonyskidmore/centos-ssh:centos-7
+      ports:
+        - 22
+      env:
+        SSH_USER: "{{ ansible_user }}"
+        SSH_USER_PASSWORD: "{{ ansible_ssh_pass }}"
+    with_sequence: count=2

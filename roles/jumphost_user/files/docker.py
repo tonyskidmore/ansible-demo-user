@@ -1,4 +1,6 @@
- 2016 Paul Durivage <paul.durivage@gmail.com>
+#!/usr/bin/env python
+#
+# (c) 2016 Paul Durivage <paul.durivage@gmail.com>
 #          Chris Houseknecht <house@redhat.com>
 #          James Tanner <jtanner@redhat.com>
 #
