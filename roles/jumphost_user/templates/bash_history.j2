@@ -3,3 +3,5 @@ docker ps
 ansible-playbook provision-remote-systems.yml
 ./docker.py --list --pretty
 ansible-playbook deploy-remote-systems.yml -i ./docker.py
+ansible-playbook destroy-remote-systems.yml
+docker ps
