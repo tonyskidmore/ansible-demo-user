@@ -4,3 +4,4 @@ jumphost_user_copy_files:
   - provision-remote-systems.yml
   - docker.py
   - docker.yml 
+  - inventory

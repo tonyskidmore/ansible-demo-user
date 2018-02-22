@@ -1,5 +1,5 @@
 ---
-- name: get local user
+- name: Get Local User Play
   hosts: localhost
   connection: local
   gather_facts: True
@@ -10,17 +10,38 @@
     set_fact:
       user_id_group: "{{ ansible_user_id }}"
 
-- name: test to container
+- name: Deploy Remote Systems Play
   hosts: "{{ hostvars['localhost']['user_id_group'] }}"
+
+  vars:
+    my_file: /tmp/myfile.txt
 
   tasks:
 
-  - name: debug stuff
+  - name: set a fact based on a fact
+    set_fact:
+      control_user: "{{ hostvars['localhost']['user_id_group'] }}"
+
+  - name: debug an ansible fact
     debug:
       var: ansible_nodename
 
-  - name: install something
+  - name: install screen package
     yum:
       name: screen
       state: present
     become: yes
+
+  - name: create a file on the remote system
+    copy:
+      dest: "{{ my_file }}"
+      content: "{{ control_user }} was here"
+
+  - name: get the contents of a remote file
+    slurp:
+      src: "{{ my_file }}"
+    register: file_content
+
+  - name: debug contents of remote file
+    debug:
+      msg: "{{ file_content }}"

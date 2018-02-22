@@ -1,20 +1,33 @@
 ---
-- name: test remote docker
+- name: Provision Docker Containers
   hosts: localhost
   connection: local
   gather_facts: True
 
+  vars:
+    container_count: 2
+
   tasks:
 
-  - name: Create a data container
+  - name: Display docker image facts
+    docker_image_facts:
+      docker_host: "{{ docker_host }}"
+      name: "{{ docker_image }}"
+    register: docker_image_facts
+
+  - name: debug display of docker_image_facts
+    debug:
+      var: docker_image_facts
+
+  - name: "Deploy {{ container_count }} container(s)"
     docker_container:
-      docker_host: tcp://docker:2375
+      docker_host: "{{ docker_host }}"
       name: "{{ ansible_user_id }}-{{ item }}"
       labels: { owner: "{{ ansible_user_id }}" }
-      image: tonyskidmore/centos-ssh:centos-7
+      image: "{{ docker_image }}"
       ports:
         - 22
       env:
         SSH_USER: "{{ ansible_user }}"
         SSH_USER_PASSWORD: "{{ ansible_ssh_pass }}"
-    with_sequence: count=2
+    with_sequence: count={{ container_count }}
