@@ -58,32 +58,30 @@
     - jumphost_user_sudo_entry is defined
   register: jumphost_sudo
 
-- block:
+- name: create bash history
+  template:
+    src: bash_history.j2
+    dest: "/home/{{ jumphost_username }}/.bash_history"
+    owner: "{{ jumphost_username }}"
+    group: "{{ jumphost_username }}"
+    mode: 0600
 
-  - name: create ssh config file
-    template:
-      src: config.j2
-      dest: "/home/{{ jumphost_username }}/.ssh/config"
-      owner: "{{ jumphost_username }}"
-      group: "{{ jumphost_username }}"
-      mode: 0600
+- name: create bash profile
+  template:
+    src: bash_profile.j2
+    dest: "/home/{{ jumphost_username }}/.bash_profile"
+    owner: "{{ jumphost_username }}"
+    group: "{{ jumphost_username }}"
+    mode: 0644
 
-  - name: create bash history
-    template:
-      src: bash_history.j2
-      dest: "/home/{{ jumphost_username }}/.bash_history"
-      owner: "{{ jumphost_username }}"
-      group: "{{ jumphost_username }}"
-      mode: 0600
+- name: copy files
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ jumphost_username }}/{{ item }}"
+    owner: "{{ jumphost_username }}"
+    group: "{{ jumphost_username }}"
+    mode: 0644
+  with_items: "{{ jumphost_user_copy_files }}"
 
-  - name: create gitconfig
-    template:
-      src: gitconfig.j2
-      dest: "/home/{{ jumphost_username }}/.gitconfig"
-      owner: "{{ jumphost_username }}"
-      group: "{{ jumphost_username }}"
-      mode: 0664
 
-  when: 
-    - gitlab_process is defined
-    - gitlab_process
+

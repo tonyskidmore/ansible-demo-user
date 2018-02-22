@@ -1,0 +1,26 @@
+---
+- name: get local user
+  hosts: localhost
+  connection: local
+  gather_facts: True
+
+  tasks:
+
+  - name: get ansible_user_id
+    set_fact:
+      user_id_group: "{{ ansible_user_id }}"
+
+- name: test to container
+  hosts: "{{ hostvars['localhost']['user_id_group'] }}"
+
+  tasks:
+
+  - name: debug stuff
+    debug:
+      var: ansible_nodename
+
+  - name: install something
+    yum:
+      name: screen
+      state: present
+    become: yes

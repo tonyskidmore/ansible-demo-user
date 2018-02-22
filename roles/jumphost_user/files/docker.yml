@@ -1,0 +1,4 @@
+---
+defaults:
+  host: tcp://docker:2375
+  default_ip: docker
