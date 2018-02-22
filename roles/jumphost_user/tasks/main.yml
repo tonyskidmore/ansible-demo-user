@@ -83,5 +83,32 @@
     mode: 0644
   with_items: "{{ jumphost_user_copy_files }}"
 
+- name: set docker.py executable
+  file:
+    path: "/home/{{ jumphost_username }}/docker.py"
+    mode: "u+x"
+
+- name: create ansible.cfg
+  template:
+    dest: "/home/{{ jumphost_username }}/ansible.cfg"
+    src: ansible_cfg.j2
+    owner: "{{ jumphost_username }}"
+    group: "{{ jumphost_username }}"
+
+- name: file create group_vars structure
+  file:
+    path: "/home/{{ jumphost_username }}/group_vars/all"
+    state: directory
+    owner: "{{ jumphost_username }}"
+    group: "{{ jumphost_username }}"
+
+- name: create /group_vars/all/vars.yml
+  template:
+    dest: "/home/{{ jumphost_username }}/group_vars/all/vars.yml"
+    src: group_vars_all_vars.j2
+    owner: "{{ jumphost_username }}"
+    group: "{{ jumphost_username }}"
+
+
 
 
