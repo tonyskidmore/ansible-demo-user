@@ -17,10 +17,10 @@
 
   - name: debug display of docker_image_facts
     debug:
-      msg: "{{ item.name }} = {{ item.vendor }}"
+      msg: "{{ item.name }} = {{ item.value }}"
     with_items:
-      - { name: "ExposedPorts", value: "{{ docker_image_facts.Config.ExposedPorts }}" }
-      - { name: "Vendor", value: "{{ docker_image_facts.Config.Labels.vendor }}" }
+      - { name: "ExposedPorts", value: "{{ docker_image_facts.images[0].Config.ExposedPorts }}" }
+      - { name: "ID", value: "{{ docker_image_facts.images[0].Container }}" }
 
   - name: "Deploy {{ container_count }} container(s)"
     docker_container:
@@ -34,3 +34,4 @@
         SSH_USER: "{{ ansible_user }}"
         SSH_USER_PASSWORD: "{{ ansible_ssh_pass }}"
     with_sequence: count={{ container_count }}
+
