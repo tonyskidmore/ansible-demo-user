@@ -12,6 +12,7 @@
 
 - name: Deploy Remote Systems Play
   hosts: "{{ hostvars['localhost']['user_id_group'] }}"
+  gather_facts: True
 
   vars:
     my_file: /tmp/myfile.txt
@@ -35,7 +36,7 @@
   - name: create a file on the remote system
     copy:
       dest: "{{ my_file }}"
-      content: "{{ control_user }} was here"
+      content: "{{ control_user }} was here on {{ ansible_nodename }}"
 
   - name: get the contents of a remote file
     slurp:
@@ -44,4 +45,4 @@
 
   - name: debug contents of remote file
     debug:
-      msg: "{{ file_content }}"
+      msg: "{{ file_content.content | b64decode  }}"
