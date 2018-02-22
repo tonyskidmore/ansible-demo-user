@@ -17,7 +17,10 @@
 
   - name: debug display of docker_image_facts
     debug:
-      var: docker_image_facts
+      msg: "{{ item.name }} = {{ item.vendor }}"
+    with_items:
+      - { name: "ExposedPorts", value: "{{ docker_image_facts.Config.ExposedPorts }}" }
+      - { name: "Vendor", value: "{{ docker_image_facts.Config.Labels.vendor }}" }
 
   - name: "Deploy {{ container_count }} container(s)"
     docker_container:

@@ -2,6 +2,8 @@
 jumphost_user_copy_files:
   - deploy-remote-systems.yml
   - provision-remote-systems.yml
+  - destroy-remote-systems.yml
   - docker.py
   - docker.yml 
   - inventory
+
